@@ -1,56 +1,36 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using BackGet.Data;
+using BackGet.Repository;
+using Microsoft.EntityFrameworkCore;
 
-namespace BackGet
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<DBContext>(options => 
+                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddControllers();
+
+//Dependancy injections
+builder.Services.AddScoped<StudentRepository, StudentRepository>();
+builder.Services.AddScoped<ProfessorRepository, ProfessorRepository>();
+builder.Services.AddScoped<SubjectRepository, SubjectRepository>();
+builder.Services.AddScoped<InstructionsDateRepository, InstructionsDateRepository>();
+
+
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-    public class Program
-    {
-        private static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
-
-            builder.Services.AddControllers();
-            SetUpDB(builder);
-
-            var app = builder.Build();
-
-            TestDatabaseConnection(app.Services);
-
-            app.UseHttpsRedirection();
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.MapControllers();
-            app.Run();
-
-            
-        }
-         private static void SetUpDB(WebApplicationBuilder builder) {
-            builder.Services.AddDbContext<DBContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-        }
-
-        private async static void TestDatabaseConnection(IServiceProvider services) {
-            await Task.Delay(3000);
-
-            using var scope = services.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<DBContext>();
-            try
-            {
-                dbContext.Database.OpenConnection();
-                dbContext.Database.CloseConnection();
-                Console.WriteLine("Database connection successful.");
-                foreach (var user in dbContext.Users.ToList())
-                {
-                    Console.WriteLine($"Name: {user.Name}, Username: {user.Username}, ID: {user.ID}");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Database connection failed: {ex.Message}");
-            }
-        }
-    }
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+app.UseRouting();
+//app.UseAuthentication();
+//app.UseAuthorization();
+app.MapControllers();
+app.Run();
