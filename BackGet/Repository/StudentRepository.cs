@@ -13,6 +13,16 @@ namespace BackGet.Repository {
         public Student getStudentByEmail(string email){
             return _context.Student.FirstOrDefault(student => student.Email == email);
         }
+
+        public bool AddStudent(Student student){
+            _context.Add(student);
+            return Save();
+        }
+
+        public bool Save(){
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
     
 }

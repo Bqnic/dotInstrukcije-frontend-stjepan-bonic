@@ -6,6 +6,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:5173")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
 
 builder.Services.AddDbContext<DBContext>(options => 
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -29,6 +39,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("MyPolicy");
 app.UseRouting();
 //app.UseAuthentication();
 //app.UseAuthorization();
