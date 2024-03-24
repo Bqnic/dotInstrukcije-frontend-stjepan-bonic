@@ -3,7 +3,6 @@ using BackGet.Repository;
 using BackGet.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using BackGet.Models;
-using Microsoft.AspNetCore.Cors;
 
 namespace BackGet.Controllers {
     [ApiController]
