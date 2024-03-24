@@ -3,7 +3,6 @@ using BackGet.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackGet.Controllers {
-    [Route("api/[controller]")]
     [ApiController]
     public class InstructionsDateController : Controller{
         private readonly InstructionsDateRepository _instructionsDateRepository;
@@ -11,9 +10,8 @@ namespace BackGet.Controllers {
             _instructionsDateRepository = instructionsDateRepository;
         }
 
-        [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<InstructionsDate>))]
-        public IActionResult GetSubjects() {
+        [HttpGet("dates")]
+        public IActionResult GetInstructionDates() {
             var instructionsDates = _instructionsDateRepository.GetInstructionsDates();
 
             if (!ModelState.IsValid) {

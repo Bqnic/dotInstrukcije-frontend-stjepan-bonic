@@ -9,7 +9,11 @@ namespace BackGet.Repository {
         }
 
         public ICollection<Professor> GetProfessors(){
-            return _context.Professors.ToList();
+            return _context.Professor.ToList();
+        }
+
+        public Professor GetProfessorByEmail(string email){
+            return _context.Professor.FirstOrDefault(professor => professor.Email == email);
         }
     }
     

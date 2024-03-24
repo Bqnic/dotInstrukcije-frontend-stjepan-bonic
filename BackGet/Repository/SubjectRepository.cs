@@ -9,7 +9,11 @@ namespace BackGet.Repository {
         }
 
         public ICollection<Subject> GetSubjects() {
-            return _context.Subjects.ToList();
+            return _context.Subject.ToList();
+        }
+
+        public Subject GetSubjectByTitle(string title){
+            return _context.Subject.FirstOrDefault(subject => subject.Title == title);
         }
     }
     

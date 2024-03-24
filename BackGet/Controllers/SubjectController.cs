@@ -3,7 +3,6 @@ using BackGet.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackGet.Controllers {
-    [Route("api/[controller]")]
     [ApiController]
     public class SubjectController : Controller{
         private readonly SubjectRepository _subjectRepository;
@@ -11,8 +10,7 @@ namespace BackGet.Controllers {
             _subjectRepository = subjectRepository;
         }
 
-        [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Subject>))]
+        [HttpGet("subjects")]
         public IActionResult GetSubjects() {
             var subjects = _subjectRepository.GetSubjects();
 
@@ -21,6 +19,17 @@ namespace BackGet.Controllers {
             }
 
             return Ok(subjects);
+        }
+
+        [HttpGet("subject/{title}")]
+        public IActionResult GetSubjectByTitle([FromRoute] string title){
+            var subject = _subjectRepository.GetSubjectByTitle(title);
+
+            if (subject == null){
+                return NotFound();
+            }
+
+            return Ok(subject);
         }
     }
     

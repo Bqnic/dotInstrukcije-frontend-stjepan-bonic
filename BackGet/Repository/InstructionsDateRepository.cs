@@ -9,7 +9,7 @@ namespace BackGet.Repository {
         }
 
         public ICollection<InstructionsDate> GetInstructionsDates(){
-            return _context.InstructionsDates.ToList();
+            return _context.InstructionsDate.ToList();
         }
     }
     

@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 namespace BackGet.Data {
     public class DBContext : DbContext {
         public DBContext (DbContextOptions<DBContext> options) : base(options) {}
-        public DbSet<Student> Students {get; set;}
-        public DbSet<Professor> Professors {get; set;}
-        public DbSet<Subject> Subjects {get; set;}
-        public DbSet<InstructionsDate> InstructionsDates {get; set;}
+        public DbSet<Student> Student {get; set;}
+        public DbSet<Professor> Professor {get; set;}
+        public DbSet<Subject> Subject {get; set;}
+        public DbSet<InstructionsDate> InstructionsDate {get; set;}
     }
     
 }

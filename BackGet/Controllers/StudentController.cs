@@ -3,7 +3,6 @@ using BackGet.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackGet.Controllers {
-    [Route("api/[controller]")]
     [ApiController]
     public class StudentController : Controller {
         private readonly StudentRepository _studentRepository;
@@ -11,8 +10,7 @@ namespace BackGet.Controllers {
             _studentRepository = studentRepository;            
         }
 
-        [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Student>))]
+        [HttpGet("students")]
         public IActionResult GetStudents(){
             var students = _studentRepository.GetStudents();
 
@@ -21,6 +19,17 @@ namespace BackGet.Controllers {
             }
 
             return Ok(students);
+        }
+
+        [HttpGet("student/{email}")]
+        public IActionResult GetStudentByEmail([FromRoute] string email){
+            var student = _studentRepository.getStudentByEmail(email);
+
+            if (student == null){
+                return NotFound();
+            }
+
+            return Ok(student);
         }
     }    
 }
