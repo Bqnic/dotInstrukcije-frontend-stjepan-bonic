@@ -1,5 +1,6 @@
 using BackGet.Data;
 using BackGet.Models;
+using BackGet.ViewModels;
 
 namespace BackGet.Repository {
     public class SubjectRepository {
@@ -8,8 +9,8 @@ namespace BackGet.Repository {
             _context = context;
         }
 
-        public ICollection<Subject> GetSubjects() {
-            return _context.Subject.ToList();
+       public ICollection<SubjectGet> GetSubjects() {
+            return _context.Subject.Select(s => new SubjectGet { Title = s.Title, Url = s.Url, Description = s.Description }).ToList();
         }
 
         public Subject GetSubjectByTitle(string title){

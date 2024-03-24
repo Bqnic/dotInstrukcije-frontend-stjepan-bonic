@@ -18,7 +18,7 @@ namespace BackGet.Controllers {
                 return BadRequest(ModelState);
             }
 
-            return Ok(subjects);
+            return Ok(new { success = true, subjects });
         }
 
         [HttpGet("subject/{title}")]

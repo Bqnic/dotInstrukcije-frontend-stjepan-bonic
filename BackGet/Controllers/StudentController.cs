@@ -91,7 +91,7 @@ namespace BackGet.Controllers {
             {
                 success = true,
                 message = "Login successful",
-                Student = new { student.Id, student.Name, student.Surname, student.Email },
+                student = new { student.Id, student.Name, student.Surname, student.Email },
                 token
             };
 
